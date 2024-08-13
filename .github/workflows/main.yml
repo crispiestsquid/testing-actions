@@ -11,20 +11,10 @@ jobs:
         uses: CamiloGarciaLaRotta/watermelon-http-client@v1
         with:
           url: 'https://jsonplaceholder.typicode.com/todos?id=1'
-
-      - name: Create initial JSON file with the status
+          
+      - name: Write the response payload to a JSON file
         run: |
-          echo '{"status": "${{ steps.query.outputs.status }}"}' > response.json
-        shell: bash
-
-      - name: Add headers to the JSON file
-        run: |
-          jq '.headers = "${{ steps.query.outputs.headers }}"' response.json > tmp.json && mv tmp.json response.json
-        shell: bash
-
-      - name: Add response payload to the JSON file
-        run: |
-          jq '.response = "${{ steps.query.outputs.response }}"' response.json > tmp.json && mv tmp.json response.json
+          echo '${{ steps.query.outputs.response }}' > response.json
         shell: bash
 
       - name: Echo the contents of the JSON file
